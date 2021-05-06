@@ -1,0 +1,95 @@
+Analisis Program Yang saya Buat Kemarin
+  <?php
+class SignUp   // terdapat class SignUp ,berfungsi untuk membuat kerangka dasar
+{
+    //fungsi untuk mengirim email ke user 
+    function sendEmail() // di dalam class terdapat method ,method ini untuk parameter ,untuk mengembalikan nilai dan lain sebagainnya ,method tersebut di beri nama sendEmail
+    {
+        //Your code is here
+    }
+    function inputValidation($email, $password) // terdapat method lagi,method ini di beri nama inputValidation
+    {
+  include "koneksi.php"; //untuk mengkoneksikan ke database
+if (isset($_POST['register'])) {  //terdapat percabangan if
+                  //ambil data dari form
+                  //terdapat properti antara lain username,password,repeat password,email  
+                  $Username=$_POST['Username'];
+                  $Password=$_POST['Password'];
+                  $Password2=$_POST['Repeat Password'];
+                  $Email=$_POST['Email'];
+                  //buat token
+                  $token=hash('sha256', md5(date('Y-m-d'))) ;
+                  //cek user terdaftar
+                  $sql_cek=mysqli_query($koneksi,"SELECT * FROM users WHERE email='".$Email."'");
+                  $r_cek=mysqli_num_rows($sql_cek);
+                  if ($r_cek>0) { // terdapat percabangan if ,jika menggunakan email yang sama ,maka aka nada pemberitahuan “Email anda sudah pernah terdaftar
+                    echo '<div class="alert alert-warning">
+                            Email anda sudah pernah terdaftar!
+                          </div>';
+                  }else{
+  //terdapat percabangan else ,jika data kosong maka insert ke tabel;
+//aktif =0 user belum aktif
+// untuk menginputkan data kedalam database
+                    $insert=mysqli_query($koneksi,"INSERT INTO users(username,password,repeat password,email,token,aktif) VALUES('".$Username."','".$Password."','".$Repeat Password."','".$Email."','".$token."','0')");
+//untuk mengirim ke email
+                    include("mail.php");
+                    if ($insert) {  // terdapat percabangan if,jika inputan dan klik tombol register berhasil maka akan muncul pesan "pendaftaran anda berhasil" ,dan setelah berhasil maka akan ada tombol pilihan untuk menuju ke menu login 
+                        echo '<div class="alert alert-success">
+                            Pendaftaran anda berhasil, silahkan cek email anda untuk aktifasi. 
+                            <a href="login.php">Login</a>
+                          </div>';
+                    }
+                  }                  
+              }
+            ?>
+
+Anlisis program pada saat pembelajaran 
+<?php
+class SignUp   // terdapat class SignUp ,berfungsi untuk membuat kerangka dasar
+{
+    //fungsi untuk mengirim email ke user 
+    function sendEmail() // di dalam class terdapat method ,method ini untuk parameter ,untuk mengembalikan nilai dan lain sebagainnya ,method tersebut di beri nama sendEmail
+    {
+        //Your code is here
+    }
+    function inputValidation($email, $password) // terdapat method lagi,method ini di beri nama inputValidation
+    {
+//empety fungsi untuk penanda suatu kondisi  
+        if (empty($email) || empty($password)) { // didalam method terdapat percabangan if,jika username ata kata sandi kosong maka akan muncul pemberitahuan "Username or password is empty"
+            return 'Username or password is empty!';
+        }
+// Didalam percabangan if untuk email ,terdapat php filter untuk menyaring data yang berasal dari sumber yang tidak aman.
+//Terdapat percabangan if,jika email yang diinputkan tidak sesua maka akan muncul pemberitahuan "Invalid email format!"
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {   
+            return "Invalid email format!";
+        }
+        if (strlen($password) < 6) {
+            return "Your Password Must Contain At Least 6 Characters!";   // terdapat percabangan if ,jika password yang dinputkan kurang dari 6 karakter maka akan muncul pemberitahuan "Your Password Must Contain At Least 6 Characters!"
+        }
+//mencari string dengan  pola, mengembalikan true jika ada pola, dan false jika sebaliknya
+        if (!preg_match("#[0-9]+#", $password) && !preg_match("#[A-Z]+#", $password)) {
+            return "Your Password Must Contain At Least 1 Number or capital letter! ";// terdapat percabangan if,jika password yang diinputkan tidak tertera dan minimal 1 angka atau huruf kapital ,maka proses pembuatan password gagal
+
+        }
+        
+        session_start();// fungsi ini digunakan untuk memulai sesi baru atau sesi lanjutan yang sudah ada
+        $_SESSION['username'] = $email;// disinih terdapat variabel sementara untuk mengambil nilai yang tersimpan di server
+        header("location: login1.php");//lokasi yang dituju ketika proses input selesai
+    }
+}
+?>
+Perbedaan Program Antara Program Dari Github Dengan Program Yang Saya Buat
+
+Program github
+-	Di dalam program github terdapat class yang berfungsi untuk membuat kerangka dasar,dan diberi nama SignUp
+-	Selanjutnya di dalam class tersebut terdapat method,method ini unutuk parameter
+-	Di dalam method tersebut terdapat percabangan if email,password
+-	Didalam percabangan if untuk email ,terdapat php filter untuk menyaring data yang berasal dari sumber yang tidak aman
+-	Terdapat preg_match dalam percabangan if untuk mencari string dengan  pola, mengembalikan true jika ada pola, dan false jika sebaliknya
+-	Empty untuk penanda suatu kondisi
+Program Yang Telah Dibuat Saya
+-	Selebihnya yang ada di github di program saya tidak ada
+Kesimpulan 
+Untuk program pada github lebih ringkas ,mudah di pahami ,karena sudah mencakup semuanya 
+
+

@@ -1,0 +1,16 @@
+echo "# prpl2021" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/HAFIZHNAUVAL/prpl2021.git
+git push -u origin main
+
+Git init   : untuk membuat repository pada file lokal yang nantinya ada folder .git
+Git status : untuk mengetahui status dari repository lokal
+Git add    : menambahkan file baru pada repository yang dipilih
+Git commit : untuk menyimpan perubahan 
+Git push   : untuk mengirimkan perubahan file setelah di commit ke remote repository.
+Git branch : melihat seluruh branch yang ada pada repository
+
+
